@@ -18,12 +18,11 @@ public class PatrimoineController {
 
     @PutMapping("/id")
     public ResponseEntity<Patrimoine> createOrUpdatePatrimoine(@RequestBody Patrimoine patrimoine) throws IOException {
-        try {
-            Patrimoine updatedPatrimoine = patrimoineService.createOrUpdatePatrimoine(patrimoine);
-            return ResponseEntity.ok(updatedPatrimoine);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if (patrimoine.getPossesseur() == null || patrimoine.getPossesseur().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        Patrimoine updatedPatrimoine = patrimoineService.createOrUpdatePatrimoine(patrimoine);
+        return ResponseEntity.ok(updatedPatrimoine);
 
     }
 
